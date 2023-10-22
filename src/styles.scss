@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ng-select.custom .ng-dropdown-panel {
+  @apply border border-gray-300 left-0 shadow-sm bg-[#1c2024];
+}
+
+.ng-select.custom {
+  @apply w-[20ch];
+}
+
+.ng-select.custom .ng-dropdown-panel .ng-option-marked {
+  @apply bg-gray-600;
+}
+
+.ng-select.custom .ng-has-value .ng-placeholder {
+  @apply hidden;
+}

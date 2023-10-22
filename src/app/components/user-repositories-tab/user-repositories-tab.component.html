@@ -1,0 +1,60 @@
+<div class="flex gap-3">
+  <input (input)="filterResults($event)" type="text" placeholder="Find a repository..."
+         class="w-full border active:border-blue-500 px-2 py-1 rounded ">
+  <div class="flex gap-1">
+    <button class="flex gap-2 items-center border rounded px-2">
+      <span>Type</span>
+      <fa-icon [icon]="faCaretDown"></fa-icon>
+    </button>
+    <button class="flex gap-2 items-center border rounded px-2">
+      <span>Language</span>
+      <fa-icon [icon]="faCaretDown"></fa-icon>
+    </button>
+    <button (click)="toggleSortPopUp($event)" class="relative flex gap-2 items-center border rounded px-2">
+      <span>Sort</span>
+      <fa-icon [icon]="faCaretDown"></fa-icon>
+      <div *ngIf="sortPopUpIsdisplayed"
+           class="flex flex-col z-10 absolute right-0 top-full mt-1 border bg-white rounded md:min-w-[30vw]">
+        <div class="flex justify-between border-y px-4 py-1 w-full">
+          <span>Select Order</span>
+          <fa-icon [icon]="faClose" (click)="closePopUp()"></fa-icon>
+        </div>
+        <button (click)="btn.sortFn()" *ngFor="let btn of sortButtons" class="flex gap-2 border-y px-4 py-1 w-full">
+          <span class="w-[25px]">
+            <fa-icon *ngIf="btn.active" [icon]="faCheck"></fa-icon>
+          </span>
+          <span>{{btn.name}}</span>
+        </button>
+
+      </div>
+    </button>
+  </div>
+</div>
+<ul>
+  <ng-container *ngFor="let repo of repositories">
+    <li class="py-5 flex flex-col gap-3">
+      <div class="flex justify-between">
+        <div class="flex gap-3">
+          <a href="{{repo.html_url}}"
+             class="text-xl text-blue-400 hover:text-blue-500 hover:underline">{{repo.name}}</a>
+          <span class="rounded-xl border self-start px-2">{{repo.visibility}}</span>
+        </div>
+        <div class="flex rounded overflow-hidden border">
+          <button class="flex gap-3">
+            <fa-icon [icon]="faStar"></fa-icon>
+            <span>Star</span>
+          </button>
+          <button>
+            <fa-icon [icon]="faChevronDown"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <span>{{repo.description}}</span>
+      <div class="flex gap-3">
+        <span>{{repo.language}}</span>
+        <span>last update on {{dateTimeFormat.format(Date.parse(repo.commits.at(0)?.commit?.committer?.date || ''))}}</span>
+      </div>
+    </li>
+    <hr>
+  </ng-container>
+</ul>

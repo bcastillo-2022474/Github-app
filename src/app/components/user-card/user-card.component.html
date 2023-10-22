@@ -1,0 +1,17 @@
+<article
+  class="flex flex-col items-center text-[rgb(194,187,174)]">
+  <div class="rounded-md p-5 border border-[rgb(158,148,132);]">
+    <a [routerLink]="['/users/', user.login]">
+      <img class="w-[80vw] sm:w-[250px] object-cover" src="{{user.avatar_url}}" alt="avatar from {{user.login}}">
+    </a>
+    <section>
+      <h3>Repositories</h3>
+      <div class="flex justify-between">
+        <ng-select placeholder="repositories" #select (focus)="onFocus()" class="custom border px-2 py-1"
+                   [items]="getRepoNames(repositories)">
+        </ng-select>
+        <button class="px-2 py-1 border" (click)="copyUrl($event, select)">Clone</button>
+      </div>
+    </section>
+  </div>
+</article>

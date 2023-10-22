@@ -1,0 +1,45 @@
+<section>
+  <hr>
+  <section *ngIf="mapDates !== undefined">
+    <h2>stats</h2>
+    <article class="overflow-x-scroll">
+      <div class="flex flex-col gap-1 w-fit pb-1">
+        <div class="flex justify-evenly w-full">
+          <span *ngFor="let month of months">{{month}}</span>
+        </div>
+        <div class="flex gap-[0.1rem]">
+          <div class="flex gap-[0.1rem] flex-col"
+               *ngFor="let colValues of getArraySeparateEvery(7, generateYearDates())">
+            <a *ngFor="let day of colValues"
+               title="{{mapDates[day] ? day + ', made ' + mapDates[day] + ' commits' : day}}"
+               class="w-[10px] h-[10px] rounded-sm border bg-gray-400 {{getClassName(day)}}"></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  <h2>Pinned</h2>
+  <ul class="w-full flex flex-col gap-3 md:grid md:grid-cols-2">
+    <li *ngFor="let repo of repositories" class="w-full border p-3">
+      <div class="flex gap-2">
+        <fa-icon [icon]="faBook"></fa-icon>
+        <a href="{{repo.html_url}}" class="text-blue-400 hover:text-blue-500 hover:underline">{{repo.name}}</a>
+        <span class="px-2 rounded-2xl border self-start">{{repo.visibility}}</span>
+      </div>
+      <p>{{repo.name}}</p>
+      <div class="flex gap-2">
+        <span>{{repo.language || "Unknown"}}</span>
+        <div class="flex gap-2">
+          <button>
+            <fa-icon class="hover:text-blue-400" [icon]="faStar"></fa-icon>
+          </button>
+          <span *ngIf="repo.watchers_count !== 0">{{repo.watchers_count}}</span>
+        </div>
+        <a class="flex gap-2">
+          <fa-icon [icon]="faCodeFork"></fa-icon>
+          <span *ngIf="repo.forks !== 0">{{repo.forks}}</span>
+        </a>
+      </div>
+    </li>
+  </ul>
+</section>

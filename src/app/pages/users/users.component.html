@@ -1,0 +1,14 @@
+<main class="bg-[#1c2024] min-h-screen flex flex-col">
+  <section
+    class="pt-5 px-2 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
+    <div class="flex justify-end col-span-full px-4 items-start">
+      <input #searchInput type="text" class="px-2 py-1 bg-[#1c2024] text-white border" placeholder="search a User"
+             (input)="filterUsers($event)">
+    </div>
+    <app-user-card [user]="user" *ngFor="let user of users"></app-user-card>
+  </section>
+  <div *ngIf="users?.length === 0"
+       class="text-8xl flex text-center grow items-center justify-center font-bold text-white">
+    No Users Found
+  </div>
+</main>

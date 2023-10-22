@@ -1,0 +1,74 @@
+<nav class="px-3 flex flex-col gap-3 border-b">
+  <div class="flex justify-between pt-3">
+    <div class="flex gap-3 text-3xl items-center">
+      <fa-icon class="cursor-pointer" [icon]="faBars"></fa-icon>
+      <fa-icon [icon]="faGithub"></fa-icon>
+      <span class="text-xl">{{user.login}}</span>
+    </div>
+    <div class="flex gap-3">
+      <button class="flex justify-between border px-2 py-1 rounded w-[30ch]">
+        <span class="flex gap-2">
+          <fa-icon [icon]="faSearch"></fa-icon>
+          <span>Type [/] to search</span>
+        </span>
+        <fa-icon [icon]="faTerminal" class="border-s px-2"></fa-icon>
+      </button>
+      <span class="my-1 w-[1px] bg-gray-400"></span>
+      <button class="flex gap-2 border px-2 py-1 rounded">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        <fa-icon [icon]="faChevronDown"></fa-icon>
+      </button>
+      <button class="border px-2 py-1 rounded">
+        <fa-icon [icon]="faCodeCommit"></fa-icon>
+      </button>
+      <button class="border px-2 py-1 rounded">
+        <fa-icon [icon]="faCodePullRequest"></fa-icon>
+      </button>
+      <button class="border px-2 py-1 rounded">
+        <fa-icon [icon]="faBoxArchive"></fa-icon>
+      </button>
+      <button class="w-[40px]">
+        <img class="w-full rounded-full" src="{{user.avatar_url}}" alt="avatar of {{user.login}} user">
+      </button>
+    </div>
+  </div>
+  <div class="flex gap-2">
+    <a #parent [routerLink]="['/users', user.login]"
+       [queryParams]="getTabName(tab.name) ? {tab: getTabName(tab.name)} : null"
+       class="flex flex-col gap-2"
+       *ngFor="let tab of tabs">
+      <button [appHoverParent]="[parent, 'bg-gray-300']" class="flex gap-2 border px-2 py-1 rounded">
+        <fa-icon [icon]="tab.icon"></fa-icon>
+        <span>{{tab.name}}</span>
+        <span *ngIf="tab.hasCount" class="bg-gray-200 rounded-full px-1">{{tab.count}}</span>
+      </button>
+      <span [class.bg-red-700]="tab.active" class="w-full h-[2px]"></span>
+    </a>
+  </div>
+</nav>
+<div *ngIf="user !== undefined"
+     class="flex flex-col p-5 md:flex-row md:gap-5 items-center md:items-start md:justify-center">
+  <section class="w-full md:w-2/5 md:max-w-[300px] flex flex-col gap-2">
+    <div class="flex overflow-hidden gap-5 items-center md:flex-col md:items-start">
+      <div>
+        <img class="rounded-full object-cover min-w-[80px] w-[18vw] sm:w-[15vw] md:w-[50vw]"
+             src="{{user.avatar_url}}"
+             alt="image avatar of {{user.login}}">
+      </div>
+      <div class="flex flex-col justify-center">
+        <h1 class="text-3xl font-bold">{{user.name}}</h1>
+        <h2 class="text-2xl">{{user.login}}</h2>
+      </div>
+    </div>
+    <p class="text-black">{{user.bio || "Not bio"}}</p>
+  </section>
+  <app-user-overview-tab *ngIf="currentTabName === 'overview'" class="w-full md:w-3/5"
+                         [user]="user"></app-user-overview-tab>
+  <app-user-repositories-tab *ngIf="currentTabName === 'repositories'" class="w-full md:w-3/5"
+                             [user]="user"></app-user-repositories-tab>
+  <app-user-projects-tab *ngIf="currentTabName === 'projects'" class="w-full md:w-3/5"
+                         [user]="user"></app-user-projects-tab>
+  <app-user-packages-tab *ngIf="currentTabName === 'packages'" class="w-full md:w-3/5"
+                         [user]="user"></app-user-packages-tab>
+  <app-user-starts-tab *ngIf="currentTabName === 'stars'" class="w-full md:w-3/5" [user]="user"></app-user-starts-tab>
+</div>
